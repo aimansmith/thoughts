@@ -1,10 +1,11 @@
 #!/usr/bin/perl
+require "/var/www/cgi-bin/loadProperties.pl";
 print "Content-type: text/plain\n\n";
 use DBI;
 use Time::HiRes;
 my $startTime=[Time::HiRes::gettimeofday()];
-my $dbh = DBI->connect("DBI:mysql:database=demoapp;host=dpkisnzo1utqdj.cpmykv81qnha.us-west-2.rds.amazonaws.com",
-                         "demouser", "demopass",
+my $dbh = DBI->connect("DBI:mysql:database=$prop{db};host=$prop{dbhost}",
+                         "$prop{dbuser}", "$prop{dbpassword}",
                          {'RaiseError' => 1});
 my $max;
 my $getMax = $dbh->prepare("SELECT MAX(id) FROM thoughts");

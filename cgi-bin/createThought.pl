@@ -1,16 +1,5 @@
 #!/usr/bin/perl
-my $propertiesFile="/opt/src/thoughts.properties";
-my %prop;
-open (PROPS, "$propertiesFile" or die);
-while (<PROPS>) { 
-  chomp;
-  if (/^(\w+)\s*=\s*(.*)$/) {
-	$prop{$1}=$2;
-  }
-}
-close PROPS;
-
-foreach $p (keys %prop) { print "$p => $prop{$p}\n"; } exit;
+require "/var/www/cgi-bin/loadProperties.pl";
 use DBI;
 use Time::HiRes;
 use CGI;
@@ -21,8 +10,8 @@ my $msg=$cgi->param('thought');
 unless ($msg) { unless ($num) { $num=1; } }
 
 my $startTime=[Time::HiRes::gettimeofday()];
-my $dbh = DBI->connect("DBI:mysql:database=demoapp;host=dpkisnzo1utqdj.cpmykv81qnha.us-west-2.rds.amazonaws.com",
-                         "demouser", "demopass",
+my $dbh = DBI->connect("DBI:mysql:database=$prop{db};host=$prop{dbhost}",
+                         "$prop{dbuser}", "$prop{dbpassword}",
                          {'RaiseError' => 1});
 
 my @words;
