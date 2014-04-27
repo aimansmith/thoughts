@@ -5,9 +5,9 @@ use CGI;
 use Time::HiRes;
 my $startTime=[Time::HiRes::gettimeofday()];
 
+my $cgi=CGI->new;
 print $cgi->header(-type=>'text/plain');
 my $thoughtNum=$cgi->param('thoughtNumber');
-
 unless ($thoughtNum=~/^\d+$/) { 
   if ($thoughtNum=~/^rand/) { $thoughtNum="random"; }
   else { print "Invalid or missing thought number\n"; exit; }
