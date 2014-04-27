@@ -1,18 +1,21 @@
 #!/usr/bin/perl
-require "/var/www/cgi-bin/loadProperties.pl";
 print "Content-type: text/plain\n\n";
 use DBI;
+use CGI;
 use Time::HiRes;
 my $startTime=[Time::HiRes::gettimeofday()];
-my $dbh = DBI->connect("DBI:mysql:database=$prop{db};host=$prop{dbhost}",
-                         "$prop{dbuser}", "$prop{dbpassword}",
-                         {'RaiseError' => 1});
+
+print $cgi->header(-type=>'text/plain');
 my $thoughtNum=$cgi->param('thoughtNumber');
 
 unless ($thoughtNum=~/^\d+$/) { 
   if ($thoughtNum=~/^rand/) { $thoughtNum="random"; }
   else { print "Invalid or missing thought number\n"; exit; }
 }
+
+my $dbh = DBI->connect("DBI:mysql:database=$prop{db};host=$prop{dbhost}",
+                         "$prop{dbuser}", "$prop{dbpassword}",
+                         {'RaiseError' => 1});
 # Get a random number - make this a sub in next release
 if ($thoughtNum eq "random") {
   my $max;
@@ -35,5 +38,5 @@ $getThought->finish();
 
 my $elapsed=Time::HiRes::tv_interval($startTime);
 print "Elapsed: $elapsed\n";
-print "Number: $rand\n";
+print "Number: $thoughtNum\n";
 print "Thought: $thought\n";
