@@ -1,4 +1,16 @@
 #!/usr/bin/perl
+my $propertiesFile="/opt/src/thoughts.properties";
+my %prop;
+open (PROPS, "$propertiesFile" or die);
+while (<PROPS>) { 
+  chomp;
+  if (/^(\w+)\s*=\s*(.*)$/) {
+	$prop{$1}=$2;
+  }
+}
+close PROPS;
+
+foreach $p (keys %prop) { print "$p => $prop{$p}\n"; } exit;
 use DBI;
 use Time::HiRes;
 use CGI;
