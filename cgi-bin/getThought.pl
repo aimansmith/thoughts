@@ -25,7 +25,7 @@ if ($thoughtNum eq "random") {
     $max=$row[0];
   }
   $getMax->finish();
-  my $thoughtNum=int(rand($max-1));
+  $thoughtNum=int(rand($max-1));
   $thoughtNum++;
 }
 my $thought;
