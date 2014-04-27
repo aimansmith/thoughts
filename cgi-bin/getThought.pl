@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-print "Content-type: text/plain\n\n";
+require "/var/www/cgi-bin/loadProperties.pl";
 use DBI;
 use CGI;
 use Time::HiRes;
