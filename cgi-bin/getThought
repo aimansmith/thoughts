@@ -28,6 +28,7 @@ if ($thoughtNum eq "random") {
   $thoughtNum=int(rand($max-1));
   $thoughtNum++;
 }
+
 my $thought;
 my $getThought = $dbh->prepare("SELECT thought FROM thoughts WHERE id=$thoughtNum");
 $getThought->execute();
@@ -36,7 +37,25 @@ while (my @row = $getThought->fetchrow_array()) {
 }
 $getThought->finish();
 
+
 my $elapsed=Time::HiRes::tv_interval($startTime);
 print "Elapsed: $elapsed\n";
-print "Number: $thoughtNum\n";
-print "Thought: $thought\n";
+# New sexy tables
+
+print <<ENDTABLEHEADER
+<TABLE  BORDER="1">
+   <TR>
+      <TH COLSPAN="2">
+         <H3><BR>Nate's Thoughts</H3>
+      </TH>
+   </TR>
+   <TR>
+      <TH>ID</TH>
+      <TH>Thought</TH>
+   </TR>
+   <TR>
+      <TH>$thoughtNum</TH>
+      <TH>$thought</TH>
+   </TR>
+</TABLE>
+ENDTABLEHEADER
